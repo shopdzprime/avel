@@ -25,7 +25,6 @@
     background:var(--cream);
     color:var(--ink);
     line-height:1.6;
-    padding-bottom:78px;
     overflow-x:hidden;
     width:100%;
   }
@@ -251,29 +250,16 @@
   }
   .btn-back-home:hover{opacity:.9;}
 
-  /* STICKY CTA */
-  .sticky-cta{
-    position:fixed;bottom:0;left:0;right:0;z-index:60;
-    background:var(--card);border-top:1px solid var(--line);
-    padding:10px 16px;display:flex;justify-content:center;
-    box-shadow:0 -4px 14px rgba(0,0,0,.06);
-  }
-  .sticky-cta button{
-    background:var(--red);color:#fff;border:none;padding:13px 40px;
-    border-radius:30px;font-size:15px;font-weight:bold;cursor:pointer;
-    animation:pulse 1.8s infinite;
-  }
-  @keyframes pulse{
-    0%{box-shadow:0 0 0 0 rgba(192,57,43,.5);}
-    70%{box-shadow:0 0 0 12px rgba(192,57,43,0);}
-    100%{box-shadow:0 0 0 0 rgba(192,57,43,0);}
-  }
-
   footer{text-align:center;padding:26px 20px;color:var(--ink-soft);font-size:12px;}
 
   @media(max-width:640px){
     .hero h1{font-size:24px;}
     .form-grid{grid-template-columns:1fr;}
+    .product-row{flex-wrap:wrap;padding:14px;gap:10px;}
+    .product-row .pinfo{flex:1 1 100%;order:1;}
+    .product-row .pinfo .pname{font-size:14.5px;}
+    .qty-ctrl{order:2;}
+    .price-tag{order:3;margin-right:auto;text-align:right;min-width:auto;}
   }
 </style>
 </head>
@@ -418,15 +404,9 @@
         </div>
 
         <div class="field full">
-          <label>البلدية</label>
-          <input type="text" id="commune" placeholder="مثال: أقبو">
-          <div class="error-msg">الرجاء إدخال اسم البلدية</div>
-        </div>
-
-        <div class="field full">
-          <label>العنوان بالتفصيل</label>
-          <textarea id="address" rows="2" placeholder="الحي، الشارع، رقم المنزل..."></textarea>
-          <div class="error-msg">الرجاء إدخال العنوان</div>
+          <label>البلدية والعنوان بالتفصيل</label>
+          <textarea id="commune" rows="2" placeholder="مثال: أقبو - الحي، الشارع، رقم المنزل..."></textarea>
+          <div class="error-msg">الرجاء إدخال البلدية والعنوان</div>
         </div>
 
         <div class="field full">
@@ -468,10 +448,6 @@
     </table>
   </section>
 
-</div>
-
-<div class="sticky-cta">
-  <button onclick="document.getElementById('order').scrollIntoView({behavior:'smooth'})">اطلب الآن</button>
 </div>
 
 <footer>© 2026 Merélec Électricité — جميع الحقوق محفوظة</footer>
@@ -548,6 +524,7 @@ function changeQty(id, delta){
   p.qty = Math.max(0, p.qty + delta);
   renderProducts();
   updateCartBadge();
+  schedulePartialSnapshot();
 }
 function updateCartBadge(){
   const total = products.reduce((s,p)=>s+p.qty,0);
@@ -625,6 +602,7 @@ function setDelivery(el){
   el.classList.add('active');
   deliveryMode = el.dataset.val;
   updateSummary();
+  schedulePartialSnapshot();
 }
 
 /* ---------- Summary ---------- */
@@ -659,6 +637,8 @@ function sendToSheet(data){
   console.log('[Merelec] إرسال البيانات إلى Google Sheet:', data);
   return fetch(SHEET_WEBHOOK_URL, {
     method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
     body: JSON.stringify(data)
   }).then(res=>{
     console.log('[Merelec] تم إرسال الطلب بنجاح.');
@@ -669,24 +649,47 @@ function sendToSheet(data){
   });
 }
 
-/* ---------- Incomplete order tracking ---------- */
-let incompleteSent = false;
-document.getElementById('phone').addEventListener('blur', function(){
-  const phone = this.value.trim();
-  if(incompleteSent) return;
-  if(!/^0[5-7][0-9]{8}$/.test(phone)) return;
+/* ---------- Visit tracking (fires as soon as the landing page opens) ---------- */
+window.addEventListener('load', function(){
+  sendToSheet({
+    name: '',
+    phone: '',
+    wilaya: '',
+    city: '',
+    state: '',
+    commune: '',
+    municipality: '',
+    baladiya: '',
+    address: '',
+    size: products[0] ? products[0].name : '',
+    qty: '',
+    delivery: '',
+    total: '',
+    source: 'promo',
+    status: 'زيارة للصفحة',
+    product: 'Extincteur'
+  }).catch(()=>{});
+});
 
+/* ---------- Partial / incomplete order tracking ---------- */
+/* Sends a snapshot of whatever the visitor has filled in so far — even a single
+   field like the wilaya or commune — without requiring the order to be confirmed. */
+let partialTimer = null;
+function sendPartialSnapshot(){
   const fullName = document.getElementById('fullName').value.trim();
+  const phone = document.getElementById('phone').value.trim();
   const wilaya = document.getElementById('wilaya').value;
   const commune = document.getElementById('commune').value.trim();
-  const address = document.getElementById('address').value.trim();
+
+  // Don't send an empty snapshot (already covered by the page-visit tracker on load)
+  if(!fullName && !phone && !wilaya && !commune) return;
+
   const qty = products.reduce((s,p)=>s+p.qty,0);
   const deliveryPrice = getDeliveryPrice();
   const productsTotal = products.reduce((s,p)=>s+p.qty*p.price,0);
   const totalVal = productsTotal + (deliveryPrice || 0);
-
-  incompleteSent = true;
   const productNames = products.filter(p=>p.qty>0).map(p=>p.name).join(', ') || products[0].name;
+
   sendToSheet({
     name: fullName,
     phone: phone,
@@ -696,7 +699,7 @@ document.getElementById('phone').addEventListener('blur', function(){
     commune: commune,
     municipality: commune,
     baladiya: commune,
-    address: (commune ? (commune + ' - ') : '') + address,
+    address: commune,
     size: productNames,
     qty: qty,
     delivery: deliveryMode,
@@ -705,6 +708,15 @@ document.getElementById('phone').addEventListener('blur', function(){
     status: 'غير مكتمل',
     product: 'Extincteur'
   }).catch(()=>{});
+}
+function schedulePartialSnapshot(){
+  clearTimeout(partialTimer);
+  partialTimer = setTimeout(sendPartialSnapshot, 900);
+}
+['fullName','phone','wilaya','commune'].forEach(id=>{
+  const el = document.getElementById(id);
+  el.addEventListener('blur', schedulePartialSnapshot);
+  el.addEventListener('change', schedulePartialSnapshot);
 });
 
 /* ---------- Form validation & submit ---------- */
@@ -720,11 +732,10 @@ function submitOrder(){
   const nameOk = validateField('fullName', v=>v.length>=3);
   const phoneOk = validateField('phone', v=>/^0[5-7][0-9]{8}$/.test(v));
   const wilayaOk = validateField('wilaya', v=>v.length>0);
-  const communeOk = validateField('commune', v=>v.length>=2);
-  const addressOk = validateField('address', v=>v.length>=5);
+  const communeOk = validateField('commune', v=>v.length>=5);
   const qty = products.reduce((s,p)=>s+p.qty,0);
 
-  if(!(nameOk && phoneOk && wilayaOk && communeOk && addressOk) || qty===0){
+  if(!(nameOk && phoneOk && wilayaOk && communeOk) || qty===0){
     if(qty===0) alert('الرجاء اختيار منتج واحد على الأقل');
     return;
   }
@@ -733,7 +744,6 @@ function submitOrder(){
   const phone = document.getElementById('phone').value.trim();
   const wilaya = document.getElementById('wilaya').value;
   const commune = document.getElementById('commune').value.trim();
-  const address = document.getElementById('address').value.trim();
   const deliveryPrice = getDeliveryPrice();
   const productsTotal = products.reduce((s,p)=>s+p.qty*p.price,0);
   const totalVal = productsTotal + (deliveryPrice || 0);
@@ -749,7 +759,7 @@ function submitOrder(){
     commune: commune,
     municipality: commune,
     baladiya: commune,
-    address: commune + ' - ' + address,
+    address: commune,
     size: productNames,
     qty: qty + ' مؤكدة',
     delivery: delivery,
@@ -761,6 +771,11 @@ function submitOrder(){
 
   const btn = document.querySelector('.btn-confirm');
   if(btn){ btn.disabled = true; }
+
+  // Show the confirmation instantly — don't make the user wait on the network request.
+  if(btn){ btn.style.display = 'none'; }
+  document.getElementById('successBox').style.display = 'block';
+  document.getElementById('successBox').scrollIntoView({behavior:'smooth', block:'center'});
 
   sendToSheet(sheetData).then(()=>{
     try{
@@ -784,13 +799,9 @@ function submitOrder(){
         });
       }catch(e){}
     }
-
-    if(btn){ btn.style.display = 'none'; }
-    document.getElementById('successBox').style.display = 'block';
-    document.getElementById('successBox').scrollIntoView({behavior:'smooth', block:'center'});
   }).catch(()=>{
-    if(btn){ btn.disabled = false; }
-    alert('حدث خطأ أثناء إرسال الطلب، الرجاء المحاولة مرة أخرى');
+    // Success message is already showing; retry silently in the background instead of alarming the visitor.
+    setTimeout(()=>{ sendToSheet(sheetData).catch(()=>{}); }, 2000);
   });
 }
 
@@ -801,7 +812,6 @@ function goHome(){
   document.getElementById('phone').value = '';
   document.getElementById('wilaya').value = '';
   document.getElementById('commune').value = '';
-  document.getElementById('address').value = '';
   document.querySelectorAll('.field').forEach(f=>f.classList.remove('invalid'));
   products.forEach(p=>p.qty = 1);
   deliveryMode = 'home';
@@ -815,7 +825,6 @@ function goHome(){
   document.getElementById('successBox').style.display = 'none';
   const btn = document.querySelector('.btn-confirm');
   if(btn){ btn.style.display = ''; btn.disabled = false; }
-  incompleteSent = false;
   purchaseSent = false;
 
   // Scroll back to the very top (hero / home of the page)
