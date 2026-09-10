@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MERÉLEC ÉLECTRICITÉ | جهاز إطفاء الحريق الأوتوماتيكي</title>
+<link rel="icon" type="image/jpeg" href="merelec-logo.jpg">
+<style>
+  :root{
+    --cream:#f6fafd;
+    --orange:#1ea0e0;
+    --orange-dark:#0f6fa8;
+    --green:#1f7a5c;
+    --red:#c0392b;
+    --navy:#123b76;
+    --ink:#1c2b3a;
+    --ink-soft:#5c6b78;
+    --line:#dbe9f4;
+    --card:#ffffff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:Tahoma, Arial, sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    line-height:1.6;
+    padding-bottom:78px;
+  }
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px;}
+
+  /* HEADER */
+  header{
+    background:var(--card);
+    border-bottom:1px solid var(--line);
+    position:sticky;top:0;z-index:50;
+  }
+  .header-inner{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 20px;max-width:1080px;margin:0 auto;
+  }
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand-mark{
+    width:42px;height:42px;border-radius:10px;
+    object-fit:cover;background:#fff;border:1px solid var(--line);
+  }
+  .brand-name{font-size:16px;font-weight:bold;letter-spacing:.5px;color:var(--ink);}
+  .brand-sub{font-size:11px;color:var(--ink-soft);}
+  .cart-icon{
+    position:relative;width:40px;height:40px;border-radius:50%;
+    background:#eaf6fd;display:flex;align-items:center;justify-content:center;
+    border:1px solid var(--line);
+  }
+  .cart-icon svg{width:20px;height:20px;stroke:var(--orange-dark);}
+  .cart-badge{
+    position:absolute;top:-4px;left:-4px;background:var(--red);color:#fff;
+    font-size:10px;width:17px;height:17px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-weight:bold;
+  }
+
+  /* HERO */
+  .hero{padding:34px 0 24px;}
+  .eyebrow{
+    display:inline-block;color:var(--red);font-size:13px;
+    font-weight:bold;background:#fdecea;padding:5px 12px;border-radius:20px;
+    border:1px solid #f3c6bf;
+  }
+  .hero h1{
+    font-size:32px;line-height:1.3;margin:16px 0 10px;color:var(--ink);
+    max-width:640px;
+  }
+  .hero p.lead{color:var(--ink-soft);font-size:15px;max-width:540px;margin-bottom:16px;}
+
+  .stock-alert{
+    display:flex;align-items:center;gap:10px;
+    background:#fdecea;border:1px solid #f3c6bf;color:var(--red);
+    padding:10px 14px;border-radius:12px;font-size:14px;font-weight:bold;
+    margin-bottom:16px;max-width:520px;
+  }
+  .stock-alert .dot{
+    width:9px;height:9px;border-radius:50%;background:var(--red);
+    animation:blinkdot 1.4s infinite;flex-shrink:0;
+  }
+  @keyframes blinkdot{0%,100%{opacity:1;}50%{opacity:.25;}}
+
+  .promo-bar{
+    background:linear-gradient(90deg, var(--red), #d9502f);
+    color:#fff;border-radius:14px;padding:14px 18px;
+    display:flex;align-items:center;justify-content:space-between;
+    flex-wrap:wrap;gap:12px;margin-bottom:18px;max-width:620px;
+  }
+  .promo-text{font-size:14px;font-weight:bold;}
+  .promo-text small{display:block;font-weight:normal;font-size:12px;opacity:.9;margin-top:2px;}
+  .countdown{display:flex;gap:8px;}
+  .countdown .cell{
+    background:rgba(255,255,255,.18);border-radius:8px;
+    min-width:44px;text-align:center;padding:6px 4px;
+  }
+  .countdown .cell .num{font-size:18px;font-weight:bold;display:block;}
+  .countdown .cell .lbl{font-size:9px;opacity:.85;}
+
+  .trust-badges{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:26px;}
+  .badge{
+    display:flex;align-items:center;gap:6px;font-size:12.5px;
+    background:#eaf6fd;border:1px solid var(--line);border-radius:20px;
+    padding:7px 12px;color:var(--ink);
+  }
+  .badge svg{width:15px;height:15px;stroke:var(--green);flex-shrink:0;}
+
+  /* CAROUSEL */
+  .carousel{
+    position:relative;border-radius:20px;overflow:hidden;
+    background:linear-gradient(160deg,#eaf3fb,#d7e8f5);
+    border:1px solid var(--line);
+  }
+  .carousel-track{display:flex;transition:transform .45s ease;}
+  .slide{
+    min-width:100%;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;
+    position:relative;
+  }
+  .slide img{width:100%;height:100%;object-fit:contain;}
+  .slide svg{width:60%;height:80%;}
+  .slide-caption{
+    position:absolute;bottom:14px;right:18px;background:rgba(255,255,255,.85);
+    padding:6px 14px;border-radius:20px;font-size:12px;font-weight:bold;color:var(--ink);
+  }
+  .car-btn{
+    position:absolute;top:50%;transform:translateY(-50%);
+    width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.9);
+    border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
+    cursor:pointer;z-index:5;
+  }
+  .car-btn.prev{right:12px;}
+  .car-btn.next{left:12px;}
+  .car-btn svg{width:16px;height:16px;stroke:var(--ink);}
+  .dots{
+    position:absolute;bottom:14px;left:50%;transform:translateX(-50%);
+    display:flex;gap:6px;
+  }
+  .dots span{
+    width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.6);
+    cursor:pointer;
+  }
+  .dots span.active{background:var(--red);width:20px;border-radius:5px;}
+
+  /* SECTION GENERIC */
+  section{padding:44px 0;}
+  .section-title{font-size:24px;margin-bottom:6px;color:var(--ink);}
+  .section-sub{color:var(--ink-soft);font-size:13.5px;margin-bottom:24px;}
+
+  /* SPECS TABLE */
+  .specs-table{
+    width:100%;border-collapse:collapse;background:var(--card);
+    border-radius:16px;overflow:hidden;border:1px solid var(--line);
+  }
+  .specs-table tr{border-bottom:1px solid var(--line);}
+  .specs-table tr:last-child{border-bottom:none;}
+  .specs-table td{padding:12px 16px;font-size:13.5px;}
+  .specs-table td:first-child{color:var(--ink-soft);width:45%;}
+  .specs-table td:last-child{font-weight:bold;color:var(--ink);}
+
+  /* SIZES / MODELS GRID */
+  .sizes-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;
+  }
+  .size-card{
+    background:var(--card);border:2px solid var(--line);border-radius:16px;
+    padding:14px 8px;text-align:center;cursor:pointer;transition:border-color .2s, transform .2s;
+  }
+  .size-card:hover{transform:translateY(-2px);}
+  .size-card.selected{border-color:var(--red);background:#fdf0ee;}
+  .size-card svg{width:44px;height:44px;margin:0 auto 8px;}
+  .size-card .mm{font-size:13px;font-weight:bold;}
+  .size-card .mm small{display:block;font-weight:normal;color:var(--ink-soft);font-size:10px;margin-top:2px;}
+
+  /* FEATURES */
+  .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;}
+  .feature-card{
+    background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;
+  }
+  .feature-icon{
+    width:42px;height:42px;border-radius:12px;background:#fdecea;
+    display:flex;align-items:center;justify-content:center;margin-bottom:12px;
+  }
+  .feature-icon svg{width:22px;height:22px;stroke:var(--red);}
+  .feature-card h3{font-size:15.5px;margin-bottom:6px;}
+  .feature-card p{font-size:13px;color:var(--ink-soft);}
+
+  /* ORDER FORM */
+  .order-section{background:#f0f8fd;border-radius:24px;padding:30px 24px;}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .form-grid .full{grid-column:1/-1;}
+  label{display:block;font-size:13px;font-weight:bold;margin-bottom:6px;color:var(--ink);}
+  input[type=text], input[type=tel], select, textarea{
+    width:100%;padding:11px 13px;border-radius:10px;border:1px solid var(--line);
+    background:#fff;font-family:inherit;font-size:14px;color:var(--ink);
+  }
+  input:focus, select:focus, textarea:focus{outline:2px solid var(--red);outline-offset:1px;}
+  .error-msg{color:var(--red);font-size:11.5px;margin-top:4px;display:none;}
+  .field.invalid .error-msg{display:block;}
+  .field.invalid input, .field.invalid select{border-color:var(--red);}
+
+  .delivery-toggle{display:flex;gap:10px;margin-top:6px;}
+  .delivery-opt{
+    flex:1;border:1px solid var(--line);border-radius:10px;padding:10px;
+    text-align:center;cursor:pointer;font-size:13px;background:#fff;
+  }
+  .delivery-opt.active{border-color:var(--green);background:#eaf6f1;color:var(--green);font-weight:bold;}
+
+  .product-list{margin-top:10px;display:flex;flex-direction:column;gap:10px;}
+  .product-row{
+    display:flex;align-items:center;gap:16px;background:#fff;border:1px solid var(--line);
+    border-radius:16px;padding:18px 20px;
+  }
+  .product-row svg{width:54px;height:54px;flex-shrink:0;}
+  .product-row .pinfo{flex:1;}
+  .product-row .pinfo .pname{font-size:17px;font-weight:bold;}
+  .product-row .pinfo .pmeta{font-size:13px;color:var(--ink-soft);}
+  .qty-ctrl{display:flex;align-items:center;gap:10px;}
+  .qty-btn{
+    width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:#eaf6fd;
+    cursor:pointer;font-size:19px;display:flex;align-items:center;justify-content:center;color:var(--orange-dark);
+  }
+  .qty-val{min-width:22px;text-align:center;font-size:16px;font-weight:bold;}
+  .price-tag{font-size:17px;font-weight:bold;color:var(--green);min-width:90px;text-align:left;}
+
+  .order-summary{
+    margin-top:18px;background:#fff;border:1px dashed var(--red);border-radius:14px;padding:16px;
+  }
+  .sum-row{display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:6px;color:var(--ink-soft);}
+  .sum-row.total{color:var(--ink);font-weight:bold;font-size:16px;border-top:1px solid var(--line);padding-top:8px;margin-top:8px;}
+  .sum-row.total span:last-child{color:var(--red);}
+
+  .btn-confirm{
+    width:100%;margin-top:16px;background:var(--red);color:#fff;border:none;
+    padding:14px;border-radius:12px;font-size:16px;font-weight:bold;cursor:pointer;
+    transition:background .2s;
+  }
+  .btn-confirm:hover{background:#a53225;}
+  .success-box{
+    display:none;margin-top:16px;background:#eaf6f1;border:1px solid #bfe3d3;color:var(--green);
+    padding:16px;border-radius:12px;font-size:14px;font-weight:bold;text-align:center;
+  }
+  .btn-back-home{
+    display:block;width:100%;margin-top:14px;background:var(--navy);color:#fff;border:none;
+    padding:13px;border-radius:12px;font-size:14.5px;font-weight:bold;cursor:pointer;
+  }
+  .btn-back-home:hover{opacity:.9;}
+
+  /* STICKY CTA */
+  .sticky-cta{
+    position:fixed;bottom:0;left:0;right:0;z-index:60;
+    background:var(--card);border-top:1px solid var(--line);
+    padding:10px 16px;display:flex;justify-content:center;
+    box-shadow:0 -4px 14px rgba(0,0,0,.06);
+  }
+  .sticky-cta button{
+    background:var(--red);color:#fff;border:none;padding:13px 40px;
+    border-radius:30px;font-size:15px;font-weight:bold;cursor:pointer;
+    animation:pulse 1.8s infinite;
+  }
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(192,57,43,.5);}
+    70%{box-shadow:0 0 0 12px rgba(192,57,43,0);}
+    100%{box-shadow:0 0 0 0 rgba(192,57,43,0);}
+  }
+
+  footer{text-align:center;padding:26px 20px;color:var(--ink-soft);font-size:12px;}
+
+  @media(max-width:640px){
+    .hero h1{font-size:24px;}
+    .form-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <img src="merelec-logo.jpg" alt="Merélec Électricité" class="brand-mark">
+      <div>
+        <div class="brand-name">MERÉLEC ÉLECTRICITÉ</div>
+        <div class="brand-sub">جهاز إطفاء الحريق الأوتوماتيكي</div>
+      </div>
+    </div>
+    <div class="cart-icon">
+      <span class="cart-badge" id="cartBadge">0</span>
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 1.987-4.706 2.577-7.202.05-.216.05-.44 0-.657a4.126 4.126 0 00-.087-.335c-.161-.53-.653-.89-1.207-.89H5.106m2.394 8.084L5.106 5.106M7.5 18.75a.75.75 0 100 1.5.75.75 0 000-1.5zm10.5 0a.75.75 0 100 1.5.75.75 0 000-1.5z"/></svg>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="hero">
+    <span class="eyebrow">MERÉLEC ÉLECTRICITÉ</span>
+    <h1>جهاز إطفاء حريق أوتوماتيكي</h1>
+    <p class="lead">يعمل تلقائياً عند ملامسة اللهب، بدون كهرباء ولا تدخل بشري. مثالي للوحات واللوحات الكهربائية.</p>
+
+    <div class="stock-alert" style="color:var(--green);background:#eafaf3;border-color:#bfe9d6;">
+      <span class="dot" style="background:var(--green);"></span>
+      <strong style="font-weight:900;">فقط ب1800 دج — الكمية متوفرة</strong>
+    </div>
+
+    <div class="trust-badges">
+      <span class="badge">ضمان 12 شهر</span>
+      <span class="badge">الدفع عند الاستلام</span>
+      <span class="badge">معاينة قبل الدفع</span>
+    </div>
+
+    <div class="carousel" id="carousel">
+      <div class="carousel-track" id="carTrack">
+        <div class="slide">
+          <img src="product-1.jpg" alt="avel extincteur — صندوق الوحدات" loading="eager" fetchpriority="high" width="600" height="800">
+          <div class="slide-caption">avel extincteur — دفعة جديدة بالمخزون</div>
+        </div>
+        <div class="slide">
+          <img src="product-2.jpg" alt="avel extincteur — ملصق المواصفات الفنية" loading="lazy" width="600" height="800">
+          <div class="slide-caption">مواصفات فنية معتمدة CE</div>
+        </div>
+      </div>
+      <div class="car-btn prev" onclick="moveSlide(1)">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/></svg>
+      </div>
+      <div class="car-btn next" onclick="moveSlide(-1)">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
+      </div>
+      <div class="dots" id="dots"></div>
+    </div>
+  </section>
+
+  <!-- ORDER FORM -->
+  <section id="order">
+    <div class="order-section">
+      <h2 class="section-title">أكمل طلبك الآن</h2>
+
+      <div class="form-grid">
+        <div class="field full">
+          <label>الاسم الكامل</label>
+          <input type="text" id="fullName" placeholder="مثال: أحمد بن علي">
+          <div class="error-msg">الرجاء إدخال الاسم الكامل</div>
+        </div>
+
+        <div class="field full">
+          <label>رقم الهاتف</label>
+          <input type="tel" id="phone" placeholder="0555 12 34 56">
+          <div class="error-msg">رقم هاتف جزائري غير صحيح</div>
+        </div>
+
+        <div class="field full">
+          <label>الولاية</label>
+          <select id="wilaya" onchange="updateSummary()">
+            <option value="">اختر الولاية</option>
+            <option value="أدرار">01 - أدرار</option>
+            <option value="الشلف">02 - الشلف</option>
+            <option value="الأغواط">03 - الأغواط</option>
+            <option value="أم البواقي">04 - أم البواقي</option>
+            <option value="باتنة">05 - باتنة</option>
+            <option value="بجاية">06 - بجاية</option>
+            <option value="بسكرة">07 - بسكرة</option>
+            <option value="بشار">08 - بشار</option>
+            <option value="بليدة">09 - بليدة</option>
+            <option value="البويرة">10 - البويرة</option>
+            <option value="تمنراست">11 - تمنراست</option>
+            <option value="تبسة">12 - تبسة</option>
+            <option value="تلمسان">13 - تلمسان</option>
+            <option value="تيارت">14 - تيارت</option>
+            <option value="تيزي وزو">15 - تيزي وزو</option>
+            <option value="الجزائر">16 - الجزائر</option>
+            <option value="الجلفة">17 - الجلفة</option>
+            <option value="جيجل">18 - جيجل</option>
+            <option value="سطيف">19 - سطيف</option>
+            <option value="سعيدة">20 - سعيدة</option>
+            <option value="سكيكدة">21 - سكيكدة</option>
+            <option value="سيدي بلعباس">22 - سيدي بلعباس</option>
+            <option value="عنابة">23 - عنابة</option>
+            <option value="قالمة">24 - قالمة</option>
+            <option value="قسنطينة">25 - قسنطينة</option>
+            <option value="المدية">26 - المدية</option>
+            <option value="مستغانم">27 - مستغانم</option>
+            <option value="المسيلة">28 - المسيلة</option>
+            <option value="معسكر">29 - معسكر</option>
+            <option value="ورقلة">30 - ورقلة</option>
+            <option value="وهران">31 - وهران</option>
+            <option value="البيض">32 - البيض</option>
+            <option value="إليزي">33 - إليزي</option>
+            <option value="برج بوعريريج">34 - برج بوعريريج</option>
+            <option value="بومرداس">35 - بومرداس</option>
+            <option value="الطارف">36 - الطارف</option>
+            <option value="تندوف">37 - تندوف</option>
+            <option value="تيسمسيلت">38 - تيسمسيلت</option>
+            <option value="الوادي">39 - الوادي</option>
+            <option value="خنشلة">40 - خنشلة</option>
+            <option value="سوق أهراس">41 - سوق أهراس</option>
+            <option value="تيبازة">42 - تيبازة</option>
+            <option value="ميلة">43 - ميلة</option>
+            <option value="عين الدفلى">44 - عين الدفلى</option>
+            <option value="النعامة">45 - النعامة</option>
+            <option value="عين تموشنت">46 - عين تموشنت</option>
+            <option value="غرداية">47 - غرداية</option>
+            <option value="غليزان">48 - غليزان</option>
+            <option value="تيميمون">49 - تيميمون</option>
+            <option value="برج باجي مختار">50 - برج باجي مختار</option>
+            <option value="أولاد جلال">51 - أولاد جلال</option>
+            <option value="بني عباس">52 - بني عباس</option>
+            <option value="إن صالح">53 - إن صالح</option>
+            <option value="إن قزام">54 - إن قزام</option>
+            <option value="تقرت">55 - تقرت</option>
+            <option value="جانت">56 - جانت</option>
+            <option value="المغير">57 - المغير</option>
+            <option value="المنيعة">58 - المنيعة</option>
+          </select>
+          <div class="error-msg">الرجاء اختيار الولاية</div>
+        </div>
+
+        <div class="field full">
+          <label>البلدية</label>
+          <input type="text" id="commune" placeholder="مثال: أقبو">
+          <div class="error-msg">الرجاء إدخال اسم البلدية</div>
+        </div>
+
+        <div class="field full">
+          <label>العنوان بالتفصيل</label>
+          <textarea id="address" rows="2" placeholder="الحي، الشارع، رقم المنزل..."></textarea>
+          <div class="error-msg">الرجاء إدخال العنوان</div>
+        </div>
+
+        <div class="field full">
+          <label>طريقة التوصيل</label>
+          <div class="delivery-toggle">
+            <div class="delivery-opt active" data-val="home" onclick="setDelivery(this)">للمنزل</div>
+            <div class="delivery-opt" data-val="office" onclick="setDelivery(this)">للمكتب</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field full" style="margin-top:18px;">
+        <label>المنتج</label>
+        <div class="product-list" id="productList"></div>
+      </div>
+
+      <div class="order-summary">
+        <div class="sum-row"><span>عدد القطع</span><span id="sumQty">0</span></div>
+        <div class="sum-row"><span>التوصيل</span><span id="sumDelivery">اختر الولاية لحساب السعر</span></div>
+        <div class="sum-row total"><span>الإجمالي</span><span id="sumTotal">0 دج</span></div>
+      </div>
+
+      <button class="btn-confirm" onclick="submitOrder()">تأكيد الطلب</button>
+      <div class="success-box" id="successBox">
+        تم تسجيل طلبك بنجاح! سنتواصل معك قريباً عبر الرسائل النصية (SMS) أو الاتصال الهاتفي.
+        <button type="button" class="btn-back-home" onclick="goHome()">الرجوع إلى الصفحة الرئيسية</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPECS -->
+  <section id="specs">
+    <h2 class="section-title">المواصفات الفنية</h2>
+    <table class="specs-table">
+      <tr><td>درجة حرارة التشغيل<br><small style="color:var(--ink-soft);font-weight:normal;">Température de fonctionnement</small></td><td>-50°C إلى +90°C</td></tr>
+      <tr><td>مدة الخدمة<br><small style="color:var(--ink-soft);font-weight:normal;">Durée de service</small></td><td>10 سنوات<br><small style="color:var(--ink-soft);font-weight:normal;">10 ans</small></td></tr>
+      <tr><td>التفعيل التلقائي<br><small style="color:var(--ink-soft);font-weight:normal;">Déclenchement automatique</small></td><td>عند لهب مفتوح 170°C<br><small style="color:var(--ink-soft);font-weight:normal;">à flamme ouverte 170°C</small></td></tr>
+      <tr><td>الشهادات<br><small style="color:var(--ink-soft);font-weight:normal;">Certifications</small></td><td>CE — EN15276</td></tr>
+    </table>
+  </section>
+
+</div>
+
+<div class="sticky-cta">
+  <button onclick="document.getElementById('order').scrollIntoView({behavior:'smooth'})">اطلب الآن</button>
+</div>
+
+<footer>© 2026 Merélec Électricité — جميع الحقوق محفوظة</footer>
+
+<script>
+/* ---------- Facebook Pixel (PageView tracking) — loaded after page paint so it never delays first render ---------- */
+window.addEventListener('load', function(){
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+  document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  try{
+    fbq('init', '1677998319917755');
+    fbq('track', 'PageView');
+  }catch(e){ console.log('Pixel not active in preview environment'); }
+});
+
+/* ---------- Carousel ---------- */
+let slideIndex = 0;
+const totalSlides = 2;
+const dotsEl = document.getElementById('dots');
+for(let i=0;i<totalSlides;i++){
+  const d = document.createElement('span');
+  if(i===0) d.classList.add('active');
+  d.onclick = ()=>goToSlide(i);
+  dotsEl.appendChild(d);
+}
+function renderCarousel(){
+  document.getElementById('carTrack').style.transform = `translateX(${slideIndex*100}%)`;
+  [...dotsEl.children].forEach((d,i)=>d.classList.toggle('active', i===slideIndex));
+}
+function moveSlide(dir){
+  slideIndex = (slideIndex - dir + totalSlides) % totalSlides;
+  renderCarousel();
+}
+function goToSlide(i){ slideIndex = i; renderCarousel(); }
+setInterval(()=>moveSlide(-1), 5000);
+
+/* ---------- Product list in order form ---------- */
+const products = [
+  {id:1, name:'avel extincteur — جهاز إطفاء حريق أوتوماتيكي', price:1800, oldPrice:2900, qty:1},
+];
+const productListEl = document.getElementById('productList');
+function extIconSvg(){
+  return `<svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="26" fill="#fdecea"/><rect x="22" y="14" width="16" height="32" rx="4" fill="#c0392b"/><rect x="25" y="19" width="10" height="4" rx="1" fill="#fff" opacity="0.8"/></svg>`;
+}
+function renderProducts(){
+  productListEl.innerHTML = '';
+  products.forEach(p=>{
+    const row = document.createElement('div');
+    row.className = 'product-row';
+    row.innerHTML = `
+      ${extIconSvg()}
+      <div class="pinfo">
+        <div class="pname">${p.name}</div>
+      </div>
+      <div class="qty-ctrl">
+        <div class="qty-btn" onclick="changeQty(${p.id},-1)">−</div>
+        <div class="qty-val">${p.qty}</div>
+        <div class="qty-btn" onclick="changeQty(${p.id},1)">+</div>
+      </div>
+      <div class="price-tag">
+        ${p.oldPrice ? `<span style="text-decoration:line-through;color:var(--ink-soft);font-weight:normal;font-size:11px;display:block;">${p.oldPrice.toLocaleString('ar-DZ')} دج</span>` : ''}
+        ${p.price.toLocaleString('ar-DZ')} دج
+      </div>
+    `;
+    productListEl.appendChild(row);
+  });
+  updateSummary();
+}
+function changeQty(id, delta){
+  const p = products.find(x=>x.id===id);
+  p.qty = Math.max(0, p.qty + delta);
+  renderProducts();
+  updateCartBadge();
+}
+function updateCartBadge(){
+  const total = products.reduce((s,p)=>s+p.qty,0);
+  document.getElementById('cartBadge').textContent = total;
+}
+renderProducts();
+updateCartBadge();
+
+/* ---------- Delivery pricing (per wilaya) ---------- */
+const deliveryPrices = {
+  'بجاية': {home:590, office:450},
+  'بليدة': {home:590, office:450},
+  'البويرة': {home:700, office:550},
+  'تيزي وزو': {home:700, office:550},
+  'الجزائر': {home:700, office:550},
+  'بومرداس': {home:700, office:550},
+  'تيبازة': {home:700, office:550},
+  'الشلف': {home:700, office:550},
+  'أم البواقي': {home:800, office:650},
+  'باتنة': {home:800, office:650},
+  'تلمسان': {home:800, office:650},
+  'جيجل': {home:800, office:650},
+  'سطيف': {home:800, office:650},
+  'سكيكدة': {home:800, office:650},
+  'سيدي بلعباس': {home:800, office:650},
+  'عنابة': {home:800, office:650},
+  'قالمة': {home:800, office:650},
+  'قسنطينة': {home:800, office:650},
+  'المدية': {home:800, office:650},
+  'مستغانم': {home:800, office:650},
+  'المسيلة': {home:800, office:650},
+  'معسكر': {home:800, office:650},
+  'وهران': {home:800, office:650},
+  'برج بوعريريج': {home:800, office:650},
+  'ميلة': {home:800, office:650},
+  'عين الدفلى': {home:800, office:650},
+  'غليزان': {home:800, office:650},
+  'تيارت': {home:900, office:750},
+  'الجلفة': {home:900, office:750},
+  'سعيدة': {home:900, office:750},
+  'الطارف': {home:900, office:750},
+  'تيسمسيلت': {home:900, office:750},
+  'خنشلة': {home:900, office:750},
+  'سوق أهراس': {home:900, office:750},
+  'عين تموشنت': {home:900, office:750},
+  'الأغواط': {home:1150, office:950},
+  'بسكرة': {home:1150, office:950},
+  'تبسة': {home:1150, office:950},
+  'ورقلة': {home:1150, office:950},
+  'الوادي': {home:1150, office:950},
+  'غرداية': {home:1150, office:950},
+  'أولاد جلال': {home:1150, office:950},
+  'تقرت': {home:1150, office:950},
+  'المغير': {home:1150, office:950},
+  'المنيعة': {home:1150, office:950},
+  'أدرار': {home:1650, office:1450},
+  'بشار': {home:1650, office:1450},
+  'تمنراست': {home:1650, office:1450},
+  'البيض': {home:1650, office:1450},
+  'إليزي': {home:1650, office:1450},
+  'تندوف': {home:1650, office:1450},
+  'النعامة': {home:1650, office:1450},
+  'تيميمون': {home:1650, office:1450},
+  'برج باجي مختار': {home:1650, office:1450},
+  'بني عباس': {home:1650, office:1450},
+  'إن صالح': {home:1650, office:1450},
+  'إن قزام': {home:1650, office:1450},
+  'جانت': {home:1650, office:1450},
+};
+
+/* ---------- Delivery toggle ---------- */
+let deliveryMode = 'home';
+function setDelivery(el){
+  document.querySelectorAll('.delivery-opt').forEach(o=>o.classList.remove('active'));
+  el.classList.add('active');
+  deliveryMode = el.dataset.val;
+  updateSummary();
+}
+
+/* ---------- Summary ---------- */
+function getDeliveryPrice(){
+  const wilaya = document.getElementById('wilaya').value;
+  if(!wilaya || !deliveryPrices[wilaya]) return null;
+  return deliveryPrices[wilaya][deliveryMode];
+}
+function updateSummary(){
+  const qty = products.reduce((s,p)=>s+p.qty,0);
+  const productsTotal = products.reduce((s,p)=>s+p.qty*p.price,0);
+  const deliveryPrice = getDeliveryPrice();
+  document.getElementById('sumQty').textContent = qty;
+
+  const sumDeliveryEl = document.getElementById('sumDelivery');
+  if(deliveryPrice === null){
+    sumDeliveryEl.textContent = 'اختر الولاية لحساب السعر';
+  } else if(deliveryPrice === 0){
+    sumDeliveryEl.textContent = 'مجاني';
+  } else {
+    sumDeliveryEl.textContent = deliveryPrice.toLocaleString('ar-DZ') + ' دج' + (deliveryMode==='office' ? ' (للمكتب)' : '');
+  }
+
+  const total = productsTotal + (deliveryPrice || 0);
+  document.getElementById('sumTotal').textContent = total.toLocaleString('ar-DZ') + ' دج';
+}
+
+/* ---------- Google Sheets Webhook ---------- */
+const SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxNTMwlvQTw4NQeeDF4WYgc52hX1HxU3Ug65yfX6IiD0fFSap82kBjrvFWLBTCeTlLd/exec';
+
+function sendToSheet(data){
+  console.log('[Merelec] إرسال البيانات إلى Google Sheet:', data);
+  return fetch(SHEET_WEBHOOK_URL, {
+    method: 'POST',
+    body: JSON.stringify(data)
+  }).then(res=>{
+    console.log('[Merelec] تم إرسال الطلب بنجاح.');
+    return res;
+  }).catch(err=>{
+    console.error('[Merelec] فشل الاتصال بـ Google Sheet:', err);
+    throw err;
+  });
+}
+
+/* ---------- Incomplete order tracking ---------- */
+let incompleteSent = false;
+document.getElementById('phone').addEventListener('blur', function(){
+  const phone = this.value.trim();
+  if(incompleteSent) return;
+  if(!/^0[5-7][0-9]{8}$/.test(phone)) return;
+
+  const fullName = document.getElementById('fullName').value.trim();
+  const wilaya = document.getElementById('wilaya').value;
+  const commune = document.getElementById('commune').value.trim();
+  const address = document.getElementById('address').value.trim();
+  const qty = products.reduce((s,p)=>s+p.qty,0);
+  const deliveryPrice = getDeliveryPrice();
+  const productsTotal = products.reduce((s,p)=>s+p.qty*p.price,0);
+  const totalVal = productsTotal + (deliveryPrice || 0);
+
+  incompleteSent = true;
+  const productNames = products.filter(p=>p.qty>0).map(p=>p.name).join(', ') || products[0].name;
+  sendToSheet({
+    name: fullName,
+    phone: phone,
+    wilaya: wilaya,
+    city: wilaya,
+    state: wilaya,
+    commune: commune,
+    municipality: commune,
+    baladiya: commune,
+    address: (commune ? (commune + ' - ') : '') + address,
+    size: productNames,
+    qty: qty,
+    delivery: deliveryMode,
+    total: totalVal,
+    source: 'promo',
+    status: 'غير مكتمل',
+    product: 'Extincteur'
+  }).catch(()=>{});
+});
+
+/* ---------- Form validation & submit ---------- */
+function validateField(id, testFn){
+  const el = document.getElementById(id);
+  const field = el.closest('.field');
+  const ok = testFn(el.value.trim());
+  field.classList.toggle('invalid', !ok);
+  return ok;
+}
+let purchaseSent = false;
+function submitOrder(){
+  const nameOk = validateField('fullName', v=>v.length>=3);
+  const phoneOk = validateField('phone', v=>/^0[5-7][0-9]{8}$/.test(v));
+  const wilayaOk = validateField('wilaya', v=>v.length>0);
+  const communeOk = validateField('commune', v=>v.length>=2);
+  const addressOk = validateField('address', v=>v.length>=5);
+  const qty = products.reduce((s,p)=>s+p.qty,0);
+
+  if(!(nameOk && phoneOk && wilayaOk && communeOk && addressOk) || qty===0){
+    if(qty===0) alert('الرجاء اختيار منتج واحد على الأقل');
+    return;
+  }
+
+  const fullName = document.getElementById('fullName').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const wilaya = document.getElementById('wilaya').value;
+  const commune = document.getElementById('commune').value.trim();
+  const address = document.getElementById('address').value.trim();
+  const deliveryPrice = getDeliveryPrice();
+  const productsTotal = products.reduce((s,p)=>s+p.qty*p.price,0);
+  const totalVal = productsTotal + (deliveryPrice || 0);
+  const delivery = deliveryMode;
+
+  const productNames = products.filter(p=>p.qty>0).map(p=>p.name).join(', ') || products[0].name;
+  const sheetData = {
+    name: fullName,
+    phone: phone,
+    wilaya: wilaya,
+    city: wilaya,
+    state: wilaya,
+    commune: commune,
+    municipality: commune,
+    baladiya: commune,
+    address: commune + ' - ' + address,
+    size: productNames,
+    qty: qty + ' مؤكدة',
+    delivery: delivery,
+    total: totalVal,
+    source: 'promo',
+    status: 'مكتمل',
+    product: 'Extincteur'
+  };
+
+  const btn = document.querySelector('.btn-confirm');
+  if(btn){ btn.disabled = true; }
+
+  sendToSheet(sheetData).then(()=>{
+    try{
+      fbq('track', 'Lead', {
+        content_name: 'Extincteur',
+        delivery_type: delivery
+      });
+    }catch(e){}
+
+    if(!purchaseSent){
+      purchaseSent = true;
+      try{
+        fbq('track', 'Purchase', {
+          value: Number(totalVal) || 0,
+          currency: 'DZD',
+          content_name: 'Extincteur',
+          content_type: 'product',
+          contents: products.filter(p=>p.qty>0).map(p=>({id:p.id, quantity:p.qty, item_price:p.price})),
+          num_items: qty,
+          delivery_type: delivery
+        });
+      }catch(e){}
+    }
+
+    if(btn){ btn.style.display = 'none'; }
+    document.getElementById('successBox').style.display = 'block';
+    document.getElementById('successBox').scrollIntoView({behavior:'smooth', block:'center'});
+  }).catch(()=>{
+    if(btn){ btn.disabled = false; }
+    alert('حدث خطأ أثناء إرسال الطلب، الرجاء المحاولة مرة أخرى');
+  });
+}
+
+/* ---------- Go back to home (top of landing page) ---------- */
+function goHome(){
+  // Reset form fields
+  document.getElementById('fullName').value = '';
+  document.getElementById('phone').value = '';
+  document.getElementById('wilaya').value = '';
+  document.getElementById('commune').value = '';
+  document.getElementById('address').value = '';
+  document.querySelectorAll('.field').forEach(f=>f.classList.remove('invalid'));
+  products.forEach(p=>p.qty = 1);
+  deliveryMode = 'home';
+  document.querySelectorAll('.delivery-opt').forEach(o=>o.classList.remove('active'));
+  document.querySelector('.delivery-opt[data-val="home"]').classList.add('active');
+  renderProducts();
+  updateCartBadge();
+  updateSummary();
+
+  // Reset success/submit state
+  document.getElementById('successBox').style.display = 'none';
+  const btn = document.querySelector('.btn-confirm');
+  if(btn){ btn.style.display = ''; btn.disabled = false; }
+  incompleteSent = false;
+  purchaseSent = false;
+
+  // Scroll back to the very top (hero / home of the page)
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+</script>
+</body>
+</html>
