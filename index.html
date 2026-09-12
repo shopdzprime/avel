@@ -289,7 +289,7 @@
 
     <div class="stock-alert" style="color:var(--green);background:#eafaf3;border-color:#bfe9d6;">
       <span class="dot" style="background:var(--green);"></span>
-      <strong style="font-weight:900;">فقط ب1800 دج — الكمية متوفرة</strong>
+      <strong style="font-weight:900;">فقط ب1800 دج — و1600 دج فقط عند اخذ أكثر من 5 حبات</strong>
     </div>
 
     <div class="trust-badges">
@@ -492,6 +492,9 @@ const products = [
   {id:1, name:'avel extincteur — جهاز إطفاء حريق أوتوماتيكي', price:1800, oldPrice:2900, qty:1},
 ];
 const productListEl = document.getElementById('productList');
+function getUnitPrice(p){
+  return p.qty > 5 ? 1600 : p.price;
+}
 function extIconSvg(){
   return `<svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="26" fill="#fdecea"/><rect x="22" y="14" width="16" height="32" rx="4" fill="#c0392b"/><rect x="25" y="19" width="10" height="4" rx="1" fill="#fff" opacity="0.8"/></svg>`;
 }
@@ -512,7 +515,8 @@ function renderProducts(){
       </div>
       <div class="price-tag">
         ${p.oldPrice ? `<span style="text-decoration:line-through;color:var(--ink-soft);font-weight:normal;font-size:11px;display:block;">${p.oldPrice.toLocaleString('ar-DZ')} دج</span>` : ''}
-        ${p.price.toLocaleString('ar-DZ')} دج
+        ${getUnitPrice(p).toLocaleString('ar-DZ')} دج
+        ${p.qty > 5 ? '<span style="display:block;font-size:10px;font-weight:normal;color:var(--green);">(سعر خاص +5 حبات)</span>' : ''}
       </div>
     `;
     productListEl.appendChild(row);
@@ -613,7 +617,7 @@ function getDeliveryPrice(){
 }
 function updateSummary(){
   const qty = products.reduce((s,p)=>s+p.qty,0);
-  const productsTotal = products.reduce((s,p)=>s+p.qty*p.price,0);
+  const productsTotal = products.reduce((s,p)=>s+p.qty*getUnitPrice(p),0);
   const deliveryPrice = getDeliveryPrice();
   document.getElementById('sumQty').textContent = qty;
 
@@ -686,7 +690,7 @@ function sendPartialSnapshot(){
 
   const qty = products.reduce((s,p)=>s+p.qty,0);
   const deliveryPrice = getDeliveryPrice();
-  const productsTotal = products.reduce((s,p)=>s+p.qty*p.price,0);
+  const productsTotal = products.reduce((s,p)=>s+p.qty*getUnitPrice(p),0);
   const totalVal = productsTotal + (deliveryPrice || 0);
   const productNames = products.filter(p=>p.qty>0).map(p=>p.name).join(', ') || products[0].name;
 
@@ -745,7 +749,7 @@ function submitOrder(){
   const wilaya = document.getElementById('wilaya').value;
   const commune = document.getElementById('commune').value.trim();
   const deliveryPrice = getDeliveryPrice();
-  const productsTotal = products.reduce((s,p)=>s+p.qty*p.price,0);
+  const productsTotal = products.reduce((s,p)=>s+p.qty*getUnitPrice(p),0);
   const totalVal = productsTotal + (deliveryPrice || 0);
   const delivery = deliveryMode;
 
@@ -793,7 +797,7 @@ function submitOrder(){
           currency: 'DZD',
           content_name: 'Extincteur',
           content_type: 'product',
-          contents: products.filter(p=>p.qty>0).map(p=>({id:p.id, quantity:p.qty, item_price:p.price})),
+          contents: products.filter(p=>p.qty>0).map(p=>({id:p.id, quantity:p.qty, item_price:getUnitPrice(p)})),
           num_items: qty,
           delivery_type: delivery
         });
