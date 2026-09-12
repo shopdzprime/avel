@@ -653,28 +653,6 @@ function sendToSheet(data){
   });
 }
 
-/* ---------- Visit tracking (fires as soon as the landing page opens) ---------- */
-window.addEventListener('load', function(){
-  sendToSheet({
-    name: '',
-    phone: '',
-    wilaya: '',
-    city: '',
-    state: '',
-    commune: '',
-    municipality: '',
-    baladiya: '',
-    address: '',
-    size: products[0] ? products[0].name : '',
-    qty: '',
-    delivery: '',
-    total: '',
-    source: 'promo',
-    status: 'زيارة للصفحة',
-    product: 'Extincteur'
-  }).catch(()=>{});
-});
-
 /* ---------- Partial / incomplete order tracking ---------- */
 /* Sends a snapshot of whatever the visitor has filled in so far — even a single
    field like the wilaya or commune — without requiring the order to be confirmed. */
@@ -685,8 +663,8 @@ function sendPartialSnapshot(){
   const wilaya = document.getElementById('wilaya').value;
   const commune = document.getElementById('commune').value.trim();
 
-  // Don't send an empty snapshot (already covered by the page-visit tracker on load)
-  if(!fullName && !phone && !wilaya && !commune) return;
+  // Don't send anything to the sheet until the visitor has entered a phone number
+  if(!phone) return;
 
   const qty = products.reduce((s,p)=>s+p.qty,0);
   const deliveryPrice = getDeliveryPrice();
